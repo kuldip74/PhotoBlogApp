@@ -94,11 +94,10 @@
         android:backgroundTint="@android:color/white"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
-        android:text=" "
+        android:text="@string/reg_login_text"
         android:textAllCaps="false"
         android:textColor="@color/colorAccent"
-        android:textSize="18sp"
-        tools:text="@string/reg_login_text" />
+        android:textSize="18sp"/>
 
     <ProgressBar
         android:id="@+id/reg_progress"

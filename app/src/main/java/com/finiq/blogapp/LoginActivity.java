@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String loginEmail = loginEmailText.getText().toString();
-                String loginPass = loginEmailText.getText().toString();
+                String loginPass = loginPasswordText.getText().toString();
 
                 if(!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)){
 
