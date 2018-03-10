@@ -2,7 +2,10 @@ package com.finiq.blogapp;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton addPostBtn;
 
+    private BottomNavigationView mainBottomNav;
+
+    private HomeFragment homeFragment;
+    private NotificationFragment notificationFragment;
+    private AccountFragment accountFragment;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +53,40 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mainToolbar);
 
         getSupportActionBar().setTitle("Photo Blog");
+
+        mainBottomNav = findViewById(R.id.mainBottomNav);
+
+        // FRAGMENTS
+        homeFragment = new HomeFragment();
+        notificationFragment = new NotificationFragment();
+        accountFragment = new AccountFragment();
+
+        mainBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()){
+
+                    case R.id.bottom_action_home :
+                        replaceFragment(homeFragment);
+                        return true;
+
+                    case R.id.bottom_action_account:
+                        replaceFragment(accountFragment);
+                        return true;
+
+                    case R.id.bottom_action_notif:
+                        replaceFragment(notificationFragment);
+                        return true;
+
+                    default:
+                        return false;
+
+
+                }
+            }
+        });
+
 
         addPostBtn = findViewById(R.id.add_post_btn);
         addPostBtn.setOnClickListener(new View.OnClickListener() {
@@ -149,78 +193,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void replaceFragment(Fragment fragment){
 
-/*
-    private Toolbar mainToolBar;
-    private FirebaseAuth mAuth;
-    private FloatingActionButton addPostBtn;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Log.d("main Oncreate","main layout created");
-
-        mAuth = FirebaseAuth.getInstance();
-
-        mainToolBar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(mainToolBar);
-        Log.d("main Oncreate","toolbar created");
-        getSupportActionBar().setTitle("Photo Blog");
-
-        addPostBtn = findViewById(R.id.add_post_btn);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, fragment);
+        fragmentTransaction.commit();
 
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(currentUser != null){
-
-           sendToLogin();
-        }
-
-    }
-
-    private void sendToLogin() {
-        Intent loginIntent = new Intent(MainActivity.this,LoginActivity.class);
-        startActivity(loginIntent);
-        finish();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-
-            case R.id.action_logout_btn :
-
-                logOut();
-                return  true;
-
-            case R.id.action_setting_btn:
-
-                Intent settingsIntent = new Intent(MainActivity.this, SetupActivity.class);
-                startActivity(settingsIntent);
-                return true;
-
-
-            default:
-                    return  false;
-        }
-
-
-    }
-
-    private void logOut() {
-        mAuth.signOut();
-        sendToLogin();
-    }*/
 }
