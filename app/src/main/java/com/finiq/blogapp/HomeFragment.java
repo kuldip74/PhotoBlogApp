@@ -25,10 +25,10 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private RecyclerView blog_list_view;
-   // private List<BlogPost> blog_list;
+    private List<BlogPost> blog_list;
 
     private FirebaseFirestore firebaseFirestore;
-    //private BlogRecyclerAdapter blogRecyclerAdapter;
+    private BlogRecyclerAdapter blogRecyclerAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -41,12 +41,12 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-      //  blog_list = new ArrayList<>();
+        blog_list = new ArrayList<>();
         blog_list_view = view.findViewById(R.id.blog_list_view);
 
-       // blogRecyclerAdapter = new BlogRecyclerAdapter(blog_list);
+        blogRecyclerAdapter = new BlogRecyclerAdapter(blog_list);
         blog_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
-        //blog_list_view.setAdapter(blogRecyclerAdapter);
+        blog_list_view.setAdapter(blogRecyclerAdapter);
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("Posts").addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -56,10 +56,10 @@ public class HomeFragment extends Fragment {
                 for(DocumentChange doc: documentSnapshots.getDocumentChanges()) {
                     if(doc.getType() == DocumentChange.Type.ADDED){
 
-          //              BlogPost blogPost = doc.getDocument().toObject(BlogPost.class);
-            //            blog_list.add(blogPost);
+                        BlogPost blogPost = doc.getDocument().toObject(BlogPost.class);
+                        blog_list.add(blogPost);
 
-              //          blogRecyclerAdapter.notifyDataSetChanged();
+                        blogRecyclerAdapter.notifyDataSetChanged();
 
                     }
                 }
